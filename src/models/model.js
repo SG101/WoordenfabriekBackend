@@ -7,9 +7,11 @@ class Model {
     this.pool.on('error', (err, client) => `Error, ${err}, on idle client${client}`);
   }
 
-  async select(columns, clause, values) {
+  async select(columns, clause, values, clause2, values2) {
     let query = `SELECT ${columns} FROM ${this.table}`;
-    if (clause) query += ` WHERE ${clause} = ${values}`;
+    if (clause2) {
+      query += ` WHERE ${clause}  = ${values} AND ${clause2} = ${values2}`;
+    } else if (clause) query += ` WHERE ${clause} = ${values}`;
     return this.pool.query(query);
   }
 
