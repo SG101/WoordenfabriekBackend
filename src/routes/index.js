@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-  indexPage, messagesPage, userPage, addMessage, LessonsPage
+  indexPage, messagesPage, userPage, addMessage, LessonsPage, authenticate, me
 } from '../controllers';
 import { modifyMessage, performAsyncAction } from '../middleware';
 
@@ -11,5 +11,7 @@ indexRouter.get('/users', userPage);
 indexRouter.get('/userLessons', LessonsPage);
 indexRouter.get('/messages', messagesPage);
 indexRouter.post('/messages', modifyMessage, performAsyncAction, addMessage);
+indexRouter.post('/login', authenticate);
+indexRouter.get('/me', me);
 
 export default indexRouter;

@@ -50,9 +50,6 @@ const onError = (error) => {
     process.exit(1);
     break;
   case 'EADDRINUSE':
-    // eslint-disable-next-line no-alert
-    alert(`${bind} is already in use`);
-    process.exit(1);
     break;
   default:
     throw error;

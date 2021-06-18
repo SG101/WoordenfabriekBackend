@@ -3,3 +3,4 @@ export * from './home';
 export * from './users';
 export * from './messages';
 export * from './userLessons';
+export * from './usercontroller';
