@@ -1,6 +1,7 @@
 import Model from '../models/model';
 
 const userModel = new Model('public."vwStudentLessons"');
+const lessonModel = new Model('public."vwLessonChallengeSummary"');
 
 export const LessonsPage = async (req, res) => {
   try {
@@ -9,7 +10,7 @@ export const LessonsPage = async (req, res) => {
     let data = '';
     if (lessonID) {
       lessonID = `'${lessonID}'`;
-      data = await userModel.select('StudentLessonID, LessonTitle, LessonSubtitle, Status, AssignedDate, CompletionDate, StudentEMAIL, overallprogress', 'StudentLessonID', lessonID);
+      data = await lessonModel.select('studentchallengeid, studentlessonid, startdate, completiondate, earnedstars, completionprogress, challengesubtitle, challengetitle,lessontitle', 'StudentLessonID', lessonID);
     } else if (studentEmail) {
       studentEmail = `'${studentEmail}'`;
       data = await userModel.select('StudentLessonID, LessonTitle, Status, AssignedDate, CompletionDate, StudentEMAIL', 'StudentEMAIL', studentEmail);
