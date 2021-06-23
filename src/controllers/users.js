@@ -1,6 +1,6 @@
 import Model from '../models/model';
 
-const userModel = new Model('public."vwUsers"');
+const userModel = new Model('vwUsers');
 
 export const userPage = async (req, res) => {
   try {
@@ -12,7 +12,7 @@ export const userPage = async (req, res) => {
     } else {
       data = await userModel.select('Min(id) as ID, Min(studentname) as name, Count(*) AS TotalFound');
     }
-    res.status(200).json({ vwUsers: data.rows });
+    res.status(200).json({ vwUsers: data });
   } catch (err) {
     res.status(200).json({ vwUsers: err.stack });
   }
