@@ -5,6 +5,6 @@ export * from './messages';
 export * from './userLessons';
 export * from './usercontroller';
 export * from './userChallenges';
+export * from './Levels';
 export * from './Challenges';
-export * from './LearningObjects';
-export * from './LearningObjectDetails';
+export * from './ChallengeDetails';
