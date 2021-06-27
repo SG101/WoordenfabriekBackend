@@ -1,6 +1,6 @@
 import Model from '../models/model';
 
-const LearningDetailsModel = new Model('vwChallengeQuestions');
+const LearningDetailsModel = new Model('vwChallengeDetailsK1');
 
 export const ChallengeQuestions = async (req, res) => {
   try {
@@ -8,9 +8,9 @@ export const ChallengeQuestions = async (req, res) => {
     let data = '';
     if (ChallengeID) {
       ChallengeID = `'${ChallengeID}'`;
-      data = await LearningDetailsModel.select('id, challengelevelid, word, morepheme1, morpheme2, morpheme3, stam, stambetekenis, morphemebetekenis1, morphemebetekenis2, morphemebetekenis3, paragraph, challengeid', 'challengelevelid', ChallengeID);
+      data = await LearningDetailsModel.select('id, challengelevelid, word, answer1, answer2, answer3, challengeid', 'challengelevelid', ChallengeID);
     } else {
-      data = await LearningDetailsModel.select('id, challengelevelid, word, morepheme1, morpheme2, morpheme3, stam, stambetekenis, morphemebetekenis1, morphemebetekenis2, morphemebetekenis3, paragraph, challengeid');
+      data = await LearningDetailsModel.select('id, challengelevelid, word, answer1, answer2, answer3, challengeid');
     }
     res.status(200).json({ LearningQuestions: data });
   } catch (err) {
