@@ -8,3 +8,6 @@ export * from './userChallenges';
 export * from './Levels';
 export * from './Challenges';
 export * from './ChallengeDetails';
+export * from './UpdateStudentAnswers';
+export * from './UpdateStudentLevels';
+export * from './UpdateStudentChallenges';

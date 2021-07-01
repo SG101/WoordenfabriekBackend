@@ -1,7 +1,8 @@
 import express from 'express';
 import {
   indexPage, messagesPage, userPage, addMessage, LessonsPage, authenticate, me, LevelsPage,
-  ChallengeDetails, ChallengeQuestions, Challenges
+  ChallengeDetails, ChallengeQuestions, Challenges, UpdateStudentAnswers, UpdateStudentLevels,
+  UpdateStudentChallenges
 } from '../controllers';
 import { modifyMessage, performAsyncAction } from '../middleware';
 
@@ -18,5 +19,8 @@ indexRouter.get('/messages', messagesPage);
 indexRouter.post('/messages', modifyMessage, performAsyncAction, addMessage);
 indexRouter.post('/login', authenticate);
 indexRouter.get('/me', me);
+indexRouter.post('/UpdateStudentAnswers', UpdateStudentAnswers);
+indexRouter.post('/UpdateStudentLevels', UpdateStudentLevels);
+indexRouter.post('/UpdateStudentChallenges', UpdateStudentChallenges);
 
 export default indexRouter;
