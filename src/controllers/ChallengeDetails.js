@@ -8,9 +8,9 @@ export const ChallengeQuestions = async (req, res) => {
     let data = '';
     if (ChallengeID) {
       ChallengeID = `'${ChallengeID}'`;
-      data = await LearningDetailsModel.select('id, challengelevelid, word, answer1, answer2, answer3, challengeid', 'challengelevelid', ChallengeID);
+      data = await LearningDetailsModel.select('id, challengelevelid, word, answer, levelid, challengeid', 'challengelevelid', ChallengeID);
     } else {
-      data = await LearningDetailsModel.select('id, challengelevelid, word, answer1, answer2, answer3, challengeid');
+      data = await LearningDetailsModel.select('id, challengelevelid, word, answer, levelid, challengeid');
     }
     res.status(200).json({ LearningQuestions: data });
   } catch (err) {

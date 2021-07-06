@@ -2,7 +2,7 @@ import express from 'express';
 import {
   indexPage, messagesPage, userPage, addMessage, LessonsPage, authenticate, me, LevelsPage,
   ChallengeDetails, ChallengeQuestions, Challenges, UpdateStudentAnswers, UpdateStudentLevels,
-  UpdateStudentChallenges
+  UpdateStudentChallenges, ChallengeQuestionsC01
 } from '../controllers';
 import { modifyMessage, performAsyncAction } from '../middleware';
 
@@ -13,6 +13,7 @@ indexRouter.get('/users', userPage);
 indexRouter.get('/userLessons', LessonsPage);
 indexRouter.get('/userLevels', LevelsPage);
 indexRouter.get('/ChallengeDetails', ChallengeDetails);
+indexRouter.get('/ChallengeQuestionsC01', ChallengeQuestionsC01);
 indexRouter.get('/Challenges', Challenges);
 indexRouter.get('/ChallengeQuestions', ChallengeQuestions);
 indexRouter.get('/messages', messagesPage);
