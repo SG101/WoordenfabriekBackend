@@ -12,3 +12,4 @@ export * from './UpdateStudentAnswers';
 export * from './UpdateStudentLevels';
 export * from './UpdateStudentChallenges';
 export * from './ChallengeDetailsC01';
+export * from './ChallengeDetailsK02';
