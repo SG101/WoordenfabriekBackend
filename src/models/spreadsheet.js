@@ -47,8 +47,8 @@ export class googleSheet {
 
 	/**
 	* gets a sheet column from model by sheet and name, returns column identifier.
-	* @param {sheet} a string corresponding with a 'sheet' value of a child of the model object
-	* @param {column} a string value corresponding with 'name' a value of the sheet's 'columns' list
+	* @param {string} sheet a string corresponding with a 'sheet' value of a child of the model object
+	* @param {string} column a string value corresponding with 'name' a value of the sheet's 'columns' list
 	*/
 	getModelColumn(sheet, column) {
 		for (let s = 0; s < this.model.length; s++) {
@@ -63,10 +63,10 @@ export class googleSheet {
 		return column;
 	}
 
-	/*
-	* @param {columnName}	the name of the column as described in the modelDescription
-	* @param {rowStart}		the first row to get
-	* @param {rowEnd}		the last row to get
+	/**
+	* @param {string} columnName the name of the column as described in the modelDescription
+	* @param {number} rowStart the first row to get
+	* @param {number} rowEnd the last row to get
 	*/
 	getColumn(sheet, column, rowStart, rowEnd) {
 		let range = sheet + '!';
