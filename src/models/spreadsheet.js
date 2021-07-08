@@ -9,9 +9,9 @@ import { google } from 'googleapis';
 
 export class googleSheet {
 	/**
-	* @param {string} sheetsID google sheets id.
-	* @param {google.auth.OAuth2} auth OAuth2 authentication object.
-	* @param {[{sheet, columns:[{name, column, type?, options?, minNum?, maxNum?}]}]} modelDescription an array linking names to sheet columns and data validation rules.
+	 * @param {string} sheetsID google sheets id.
+	 * @param {google.auth.OAuth2} auth OAuth2 authentication object.
+	 * @param {[{sheet, columns:[{name, column, type?, options?, minNum?, maxNum?}]}]} modelDescription an array linking names to sheet columns and data validation rules.
 	*/
 	constructor(sheetsID, auth, modelDescription) {
 		this.sheets = google.sheets({ version: 'v4', auth });
@@ -20,10 +20,10 @@ export class googleSheet {
 	}
 
 	/**
-	* gets a sheet column from model by sheet and name, returns column identifier.
-	* @param {string} sheet a string corresponding with a 'sheet' value of a child of the model object
-	* @param {string} column a string value corresponding with 'name' a value of the sheet's 'columns' list
-	* @returns {[string]} all data in the given column
+	 * gets a sheet column from model by sheet and name, returns column identifier.
+	 * @param {string} sheet a string corresponding with a 'sheet' value of a child of the model object
+	 * @param {string} column a string value corresponding with 'name' a value of the sheet's 'columns' list
+	 * @returns {[string]} all data in the given column
 	*/
 	getModelColumn(sheet, column) {
 		for (let s = 0; s < this.model.length; s++) {
@@ -80,11 +80,11 @@ export class googleSheet {
 	}
 
 	/**
-	* gets a column from given sheet with data validation and sheet.
-	* @param {string} sheetName the name of the sheet to get from.
-	* @param {string} columnName the name of the column as described in the modelDescription or the direct column identifier.
-	* @param {int} rowStart the first row to get.
-	* @param {int} rowEnd the last row to get.
+	 * gets a column from given sheet with data validation and sheet.
+	 * @param {string} sheetName the name of the sheet to get from.
+	 * @param {string} columnName the name of the column as described in the modelDescription or the direct column identifier.
+	 * @param {int} rowStart the first row to get.
+	 * @param {int} rowEnd the last row to get.
 	*/
 	getColumn(sheetName, columnIdentifier, rowStart, rowEnd) {
 		let range = sheetName + '!';
@@ -113,10 +113,10 @@ export class googleSheet {
 	}
 
 	/**
-	* Reads data from a given range
-	* @param {string} sheet name of the targeted spreadsheet.
-	* @param {string} range spreadsheet range to get values from.
-	* @returns {[[string]]} sheet data as 2D array
+	 * reads data from a given range
+	 * @param {string} sheet name of the targeted spreadsheet.
+	 * @param {string} range spreadsheet range to get values from.
+	 * @returns {[[string]]} sheet data as 2D array
 	*/
 	getFromRange(sheetName, range) {
 		let sheetRange = sheetName + '!' + range;
