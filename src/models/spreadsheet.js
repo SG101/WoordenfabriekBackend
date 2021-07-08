@@ -1,11 +1,11 @@
 import { google } from 'googleapis';
 
-//
-//	sheet model description:
-//		{ [{ sheet, columns: [{ name, column, type?, options?, minNum?, maxNum?}] }] }
-//	single column:
-//		{ name, column, type?, options?, minNum?, maxNum?}
-//
+/*
+ *	sheet model description:
+ *		{ [{ sheet, columns: [{ name, column, type?, options?, minNum?, maxNum?}] }] }
+ *	single column:
+ *		{ name, column, type?, options?, minNum?, maxNum?}
+*/
 
 export class googleSheet {
 	/**
@@ -113,10 +113,10 @@ export class googleSheet {
 	}
 
 	/**
-	* Reads data from a given range and returns as 2D array.
+	* Reads data from a given range
 	* @param {string} sheet name of the targeted spreadsheet.
 	* @param {string} range spreadsheet range to get values from.
-	* @returns {[]}
+	* @returns {[[string]]} sheet data as 2D array
 	*/
 	getFromRange(sheetName, range) {
 		let sheetRange = sheetName + '!' + range;
