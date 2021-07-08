@@ -11,25 +11,7 @@ export class googleSheet {
 		this.ID = sheetsID;
 		this.model = modelDescription;
 	}
-
-	/**
-	* Reads data from a given range and returns as 2D array.
-	* @param {string} sheet name of the targeted spreadsheet.
-	* @param {string} range spreadsheet range to get values from.
-	* @returns {[]}
-	*/
-	getFromRange(sheet, range) {
-		sheets.spreadsheets.values.get({
-				spreadsheetID: this.ID,
-				range: range
-			},
-			(err, res) => {
-				if (err) return console.log('Sheets API returned error: ' + err);
-				else return res.data.values;
-			}
-		);
-	}
-
+	
 	/**
 	* gets a sheet column from model by sheet and name, returns column identifier.
 	* @param {string} sheet a string corresponding with a 'sheet' value of a child of the model object
@@ -119,6 +101,25 @@ export class googleSheet {
 							this.validate(res.data.values[i], modelColumn);
 					return res.data.values;
 				}
+			}
+		);
+	}
+
+	/**
+	* Reads data from a given range and returns as 2D array.
+	* @param {string} sheet name of the targeted spreadsheet.
+	* @param {string} range spreadsheet range to get values from.
+	* @returns {[]}
+	*/
+	getFromRange(sheetName, range) {
+		let sheetRange = sheetName + '!' + range;
+		sheets.spreadsheets.values.get({
+				spreadsheetID: this.ID,
+				range: sheetRange
+			},
+			(err, res) => {
+				if (err) return console.log('Sheets API returned error: ' + err);
+				else return res.data.values;
 			}
 		);
 	}
