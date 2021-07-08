@@ -3,7 +3,7 @@ import { google } from 'googleapis';
 export class googleSheet {
 	/**
 	* @param {string} sheetsID google sheets id.
-	* @param {google.auth.OAuth2} auth  authentication object.
+	* @param {google.auth.OAuth2} auth OAuth2 authentication object.
 	* @param {Object} modelDescription an array linking names to sheet columns and data validation rules.
 	*/
 	constructor(sheetsID, auth, modelDescription) {
@@ -13,7 +13,7 @@ export class googleSheet {
 	}
 
 	/**
-	* Reads data from a given range and returns as 2D array:
+	* Reads data from a given range and returns as 2D array.
 	* @param {string} sheet name of the targeted spreadsheet.
 	* @param {string} range spreadsheet range to get values from.
 	* @returns {[]}
@@ -92,22 +92,23 @@ export class googleSheet {
 
 	/**
 	* gets a column from given sheet with data validation and sheet.
+	* @param {string} sheetName the name of the sheet to get from.
 	* @param {string} columnName the name of the column as described in the modelDescription or the direct column identifier.
 	* @param {int} rowStart the first row to get.
 	* @param {int} rowEnd the last row to get.
 	*/
-	getColumn(sheet, column, rowStart, rowEnd) {
-		let range = sheet + '!';
-		let modelColumn = this.getModelColumn(sheet, column);
+	getColumn(sheetName, columnIdentifier, rowStart, rowEnd) {
+		let range = sheetName + '!';
+		let modelColumn = this.getModelColumn(sheetName, columnIdentifier);
 		
 		if (modelColumn == undefined) {
-			range += column + rowStart + ':' + column + rowEnd;
+			range += columnIdentifier + rowStart + ':' + columnIdentifier + rowEnd;
 		} else {
 			range += modelColumn.column + rowStart + ':' + modelColumn.column + rowEnd;
 		}
 
 		console.log(range);
-		sheets.spreadsheets.values.get({ spreadsheetID: this.ID, range: range },
+		this.sheets.spreadsheets.values.get({ spreadsheetID: this.ID, range: range },
 			(err, res) => {
 				if (err) {
 					return console.log('Google sheets API returned error: ' + err);
