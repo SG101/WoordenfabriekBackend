@@ -1,22 +1,29 @@
 import { google } from 'googleapis';
 
+//
+//	sheet model description:
+//		{ [{ sheet, columns: [{ name, column, type?, options?, minNum?, maxNum?}] }] }
+//	single column:
+//		{ name, column, type?, options?, minNum?, maxNum?}
+//
+
 export class googleSheet {
 	/**
 	* @param {string} sheetsID google sheets id.
 	* @param {google.auth.OAuth2} auth OAuth2 authentication object.
-	* @param {Object} modelDescription an array linking names to sheet columns and data validation rules.
+	* @param {[{sheet, columns:[{name, column, type?, options?, minNum?, maxNum?}]}]} modelDescription an array linking names to sheet columns and data validation rules.
 	*/
 	constructor(sheetsID, auth, modelDescription) {
 		this.sheets = google.sheets({ version: 'v4', auth });
 		this.ID = sheetsID;
 		this.model = modelDescription;
 	}
-	
+
 	/**
 	* gets a sheet column from model by sheet and name, returns column identifier.
 	* @param {string} sheet a string corresponding with a 'sheet' value of a child of the model object
 	* @param {string} column a string value corresponding with 'name' a value of the sheet's 'columns' list
-	* @returns {[]}
+	* @returns {[string]} all data in the given column
 	*/
 	getModelColumn(sheet, column) {
 		for (let s = 0; s < this.model.length; s++) {
@@ -35,8 +42,8 @@ export class googleSheet {
 	/**
 	 * validates cell according to default validation settings and a call to validateCell.
 	 * @param {string} cellData the raw data from the cell.
-	 * @param {Object} columnDescription the column description object from the model.
-	 * @returns {boolean}
+	 * @param {{name, column, type?, options?, minNum?, maxNum?}} columnDescription the column description object from the model.
+	 * @returns {boolean} true if the given cell data passes all validation tests
 	 */
 	validateCell(cellData, columnDescription) {
 		if (columnDescription.validateCell != undefined) {
