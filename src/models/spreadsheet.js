@@ -2,9 +2,9 @@ import { google } from 'googleapis';
 
 export class googleSheet {
 	/**
-	* @param {string} sheetsID google sheets id
-	* @param {google.auth.OAuth2} auth  authentication object
-	* @param {Object} modelDescription an array linking names to sheet columns and data validation rules
+	* @param {string} sheetsID google sheets id.
+	* @param {google.auth.OAuth2} auth  authentication object.
+	* @param {Object} modelDescription an array linking names to sheet columns and data validation rules.
 	*/
 	constructor(sheetsID, auth, modelDescription) {
 		this.sheets = google.sheets({ version: 'v4', auth });
@@ -14,8 +14,8 @@ export class googleSheet {
 
 	/**
 	* Reads data from a given range and returns as 2D array:
-	* @param {string} sheet name of the targeted spreadsheet
-	* @param {string} range spreadsheet range to get values from
+	* @param {string} sheet name of the targeted spreadsheet.
+	* @param {string} range spreadsheet range to get values from.
 	* @returns {[]}
 	*/
 	getFromRange(sheet, range) {
