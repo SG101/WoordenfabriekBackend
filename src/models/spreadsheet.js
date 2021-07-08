@@ -51,9 +51,27 @@ export class googleSheet {
 	}
 
 	/**
+	 * 
+	 * @param {string} cellData the raw data from the cell
+	 * @param {Object} columnDescription the column description object from the model
+	 * @returns {boolean}
+	 */
+	validateCell(cellData, columnDescription) {
+		let validated = true;
+		if (columnDescription.validateCell != undefined) {
+			validated = columnDescription.validateCell(cellData);
+		}
+		if (columnDescription.type === 'string' || columnDescription.type == undefined) {
+			validated = (cellData.length < data);
+		} else if (columnDescription.type === 'number') {
+			validated = (parseInt(cellData) != NaN);
+		}
+	}
+
+	/**
 	* @param {string} columnName the name of the column as described in the modelDescription or the direct column identifier
-	* @param {number} rowStart the first row to get
-	* @param {number} rowEnd the last row to get
+	* @param {int} rowStart the first row to get
+	* @param {int} rowEnd the last row to get
 	*/
 	getColumn(sheet, column, rowStart, rowEnd) {
 		let range = sheet + '!';
@@ -68,10 +86,16 @@ export class googleSheet {
 		console.log(range);
 		sheets.spreadsheets.values.get({ spreadsheetID: this.ID, range: range },
 			(err, res) => {
-				if (err) return console.log('Google sheets API returned error: ' + err);
-				else return res.data.values;
-				if (modelColumn != undefined) {
-					modelColumn.
+				if (err) {
+					return console.log('Google sheets API returned error: ' + err);
+				}
+				else {
+					if (modelColumn != undefined) {
+						for (let i = 0; i < res.data.values.length; i++) {
+							this.validate(res.data.values[i], modelColumn);
+						}
+					}
+					return res.data.values;
 				}
 			}
 		);

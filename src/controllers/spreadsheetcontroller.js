@@ -10,7 +10,7 @@ import { googleSheet } from '../models/spreadsheet';
 * 'columns[x].charLimit' value is only used when type == 'string' for limiting the number of characters in a cell
 * 'columns[x].maxNum' and 'columns[x].minNum' are used to limit the value of a value of type 'number'
 	both are inclusive limiters
-* columns[x].validator is a function called with as argument the contents of a cell.
+* columns[x].validateCell is a function called with as argument the contents of a cell.
 	This function should return a boolean showing wether or not the given input is valid.
 	This function is in addition to the available validator variables.
 */
