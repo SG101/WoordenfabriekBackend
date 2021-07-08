@@ -51,7 +51,7 @@ export class googleSheet {
 	}
 
 	/**
-	 * 
+	 * validates cell according to default validation settings and a call to validateCell
 	 * @param {string} cellData the raw data from the cell
 	 * @param {Object} columnDescription the column description object from the model
 	 * @returns {boolean}
@@ -61,18 +61,37 @@ export class googleSheet {
 			if(!columnDescription.validateCell(cellData)) return false;
 		}
 
-		if (columnDescription.type === 'string' || columnDescription.type == undefined) {
-			if (typeof columnDescription.charLimit == 'number' && cellData.length < columnDescription.charLimit)
+		if (columnDescription.type == undefined) {
+			return true;
+		} else if (columnDescription.type === 'string') {
+			if (typeof columnDescription.charLimit == 'number'
+				&& cellData.length <= columnDescription.charLimit) {
 				return false;
-			else return true;
+			}
 		} else if (columnDescription.type === 'number') {
-			if (parseInt(cellData) == NaN)
+			if (parseInt(cellData) == NaN) {
 				return false;
-			else return true;
+			} else if (typeof columnDescription.maxNum != undefined
+				&& parseInt(cellData) > maxNum) {
+				return false;
+			} else if (typeof columnDescription.minNum != undefined
+				&& parseInt(cellData) < minNum) {
+				return false;
+			}
+		} else if (columnDescription.type === 'options') {
+			if (columnDescription.options != undefined) {
+				let foundMatch = false;
+				for (let i = 0; i < columnDescription.options; i++)
+					if (cellData == columnDescription.options[i])
+						foundMatch = true;
+				if (!foundMatch) return false;
+			}
 		}
+		return true;
 	}
 
 	/**
+	* gets a column and  
 	* @param {string} columnName the name of the column as described in the modelDescription or the direct column identifier
 	* @param {int} rowStart the first row to get
 	* @param {int} rowEnd the last row to get
@@ -94,11 +113,9 @@ export class googleSheet {
 					return console.log('Google sheets API returned error: ' + err);
 				}
 				else {
-					if (modelColumn != undefined) {
-						for (let i = 0; i < res.data.values.length; i++) {
+					if (modelColumn != undefined)
+						for (let i = 0; i < res.data.values.length; i++)
 							this.validate(res.data.values[i], modelColumn);
-						}
-					}
 					return res.data.values;
 				}
 			}
