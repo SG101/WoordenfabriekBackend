@@ -1,21 +1,5 @@
 import { google } from 'googleapis';
 
-/*
-* model notes:
-* 'columns[x].type' value is used to identify how to interpret the data in that column.
-	e.g: when type == 'list' the data in that column should be interpreted as a comma-separated list.
-		when type == 'options' the possible items should be limited to the values of another item 'options'.
-		when type == 'number' the column should be interpreted as numbers
-		when type == 'undefined' the type 'string' is assumed
-* 'columns[x].charLimit' value is only used when type == 'string' for limiting the number of characters in a cell
-* 'columns[x].maxNum' and 'columns[x].minNum' are used to limit the value of a value of type 'number'
-	both are inclusive limiters
-* columns[x].validator is a function called with as argument the contents of a cell.
-	This function should return a boolean showing wether or not the given input is valid.
-	This function is in addition to the available validator variables.
-*/
-
-
 export class googleSheet {
 	/**
 	* @param {string} sheetsID google sheets id
@@ -67,7 +51,7 @@ export class googleSheet {
 	}
 
 	/**
-	* @param {string} columnName the name of the column as described in the modelDescription
+	* @param {string} columnName the name of the column as described in the modelDescription or the direct column identifier
 	* @param {number} rowStart the first row to get
 	* @param {number} rowEnd the last row to get
 	*/
@@ -75,14 +59,20 @@ export class googleSheet {
 		let range = sheet + '!';
 		let modelColumn = this.getModelColumn(sheet, column);
 		
-		if (modelColumn === undefined) range += column + rowStart + ':' + column + rowEnd;
-		else range += modelColumn.column + rowStart + ':' + modelColumn.column + rowEnd;
+		if (modelColumn == undefined) {
+			range += column + rowStart + ':' + column + rowEnd;
+		} else {
+			range += modelColumn.column + rowStart + ':' + modelColumn.column + rowEnd;
+		}
 
 		console.log(range);
 		sheets.spreadsheets.values.get({ spreadsheetID: this.ID, range: range },
 			(err, res) => {
-				if (err) return console.log('Sheets API returned error: ' + err);
+				if (err) return console.log('Google sheets API returned error: ' + err);
 				else return res.data.values;
+				if (modelColumn != undefined) {
+					modelColumn.
+				}
 			}
 		);
 	}
