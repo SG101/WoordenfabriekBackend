@@ -51,9 +51,9 @@ export class googleSheet {
 	}
 
 	/**
-	 * validates cell according to default validation settings and a call to validateCell
-	 * @param {string} cellData the raw data from the cell
-	 * @param {Object} columnDescription the column description object from the model
+	 * validates cell according to default validation settings and a call to validateCell.
+	 * @param {string} cellData the raw data from the cell.
+	 * @param {Object} columnDescription the column description object from the model.
 	 * @returns {boolean}
 	 */
 	validateCell(cellData, columnDescription) {
@@ -91,10 +91,10 @@ export class googleSheet {
 	}
 
 	/**
-	* gets a column and  
-	* @param {string} columnName the name of the column as described in the modelDescription or the direct column identifier
-	* @param {int} rowStart the first row to get
-	* @param {int} rowEnd the last row to get
+	* gets a column from given sheet with data validation and sheet.
+	* @param {string} columnName the name of the column as described in the modelDescription or the direct column identifier.
+	* @param {int} rowStart the first row to get.
+	* @param {int} rowEnd the last row to get.
 	*/
 	getColumn(sheet, column, rowStart, rowEnd) {
 		let range = sheet + '!';
