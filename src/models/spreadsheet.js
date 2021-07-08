@@ -1,11 +1,11 @@
 import { google } from 'googleapis';
 
-/*
+/*/
  *	sheet model description:
  *		{ [{ sheet, columns: [{ name, column, type?, options?, minNum?, maxNum?}] }] }
  *	single column:
  *		{ name, column, type?, options?, minNum?, maxNum?}
-*/
+/*/
 
 export class googleSheet {
 	/**
