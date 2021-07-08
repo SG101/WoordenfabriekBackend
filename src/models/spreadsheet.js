@@ -20,7 +20,7 @@ export class googleSheet {
 	/**
 	* @param {string} sheetsID google sheets id
 	* @param {google.auth.OAuth2} auth  authentication object
-	* @param {object} modelDescription an array linking names to sheet columns and data validation rules
+	* @param {Object} modelDescription an array linking names to sheet columns and data validation rules
 	*/
 	constructor(sheetsID, auth, modelDescription) {
 		this.sheets = google.sheets({ version: 'v4', auth });
@@ -32,6 +32,7 @@ export class googleSheet {
 	* Reads data from a given range and returns as 2D array:
 	* @param {string} sheet name of the targeted spreadsheet
 	* @param {string} range spreadsheet range to get values from
+	* @returns {[]}
 	*/
 	getFromRange(sheet, range) {
 		sheets.spreadsheets.values.get({
@@ -49,18 +50,20 @@ export class googleSheet {
 	* gets a sheet column from model by sheet and name, returns column identifier.
 	* @param {string} sheet a string corresponding with a 'sheet' value of a child of the model object
 	* @param {string} column a string value corresponding with 'name' a value of the sheet's 'columns' list
+	* @returns {[]}
 	*/
 	getModelColumn(sheet, column) {
 		for (let s = 0; s < this.model.length; s++) {
 			if (this.model[s].sheet === sheet) {
 				sheet = this.model[s];
 				for (let c = 0; c < sheet.columns.length; c++) {
-					if (sheet.columns[s] === column)
+					if (sheet.columns[c].name === column) {
 						return sheet.columns[c];
+					}
 				}
 			}
 		}
-		return column;
+		return undefined;
 	}
 
 	/**
@@ -72,9 +75,10 @@ export class googleSheet {
 		let range = sheet + '!';
 		let modelColumn = this.getModelColumn(sheet, column);
 		
-		if (typeof modelColumn == 'string') range += modelColumn + rowStart + ':' + modelColumn + rowEnd;
-		else range += modelColumn.name + rowStart + ':' + modelColumn.name + rowEnd;
+		if (modelColumn === undefined) range += column + rowStart + ':' + column + rowEnd;
+		else range += modelColumn.column + rowStart + ':' + modelColumn.column + rowEnd;
 
+		console.log(range);
 		sheets.spreadsheets.values.get({ spreadsheetID: this.ID, range: range },
 			(err, res) => {
 				if (err) return console.log('Sheets API returned error: ' + err);
