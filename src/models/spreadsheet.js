@@ -57,14 +57,18 @@ export class googleSheet {
 	 * @returns {boolean}
 	 */
 	validateCell(cellData, columnDescription) {
-		let validated = true;
 		if (columnDescription.validateCell != undefined) {
-			validated = columnDescription.validateCell(cellData);
+			if(!columnDescription.validateCell(cellData)) return false;
 		}
+
 		if (columnDescription.type === 'string' || columnDescription.type == undefined) {
-			validated = (cellData.length < data);
+			if (typeof columnDescription.charLimit == 'number' && cellData.length < columnDescription.charLimit)
+				return false;
+			else return true;
 		} else if (columnDescription.type === 'number') {
-			validated = (parseInt(cellData) != NaN);
+			if (parseInt(cellData) == NaN)
+				return false;
+			else return true;
 		}
 	}
 
