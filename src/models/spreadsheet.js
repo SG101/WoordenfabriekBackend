@@ -89,10 +89,10 @@ export class googleSheet {
 	*/
 	getColumn(sheet, column, rowStart, rowEnd) {
 		let range = sheet + '!';
-		column = getModelColumn(sheet, column);
+		let modelColumn = this.getModelColumn(sheet, column);
 		
-		if (typeof column == 'string') range += column + rowStart + ':' + column + rowEnd;
-		else range += column.name + rowStart + ':' + column.name + rowEnd;
+		if (typeof modelColumn == 'string') range += modelColumn + rowStart + ':' + modelColumn + rowEnd;
+		else range += modelColumn.name + rowStart + ':' + modelColumn.name + rowEnd;
 
 		sheets.spreadsheets.values.get({ spreadsheetID: this.ID, range: range },
 			(err, res) => {
