@@ -2,20 +2,25 @@ import { google } from 'googleapis';
 
 /*/
  *	sheet model description:
- 	*	[{sheet,columns:[{name, column, type?, options?, min?, max?, validateCell?}]}]
+ 	*	[{sheet, columns:[{name, column, type?, options?, min?, max?, validateCell?}]}]
  *	single column:
  	*	{name, column, type?, options?, min?, max?, validateCell?}
  *	column guidelines:
- 	*	min and max are used as clamp values when type = 'number' and as character limits when type = 'string'
- 	*	options should be an array of accepted values, this will only be used if type = 'options'
- 	*	validateCell should be a function returning a boolean, this function is called on every cell that is gotten via this colunn
- 	*	values with '?' are optional or only required in case of particular types
+ 	*	min and max are used as clamp values when type = 'number' and as character limits when type = 'string'.
+ 	*	options should be an array of accepted values, this will only be used if type = 'options'.
+ 	*	validateCell should be a function returning a boolean, this function is called on every cell that is gotten via this colunn.
+ 	*	values with '?' are optional or only required in case of particular types.
 /*/
 
+/**
+ * @property {google sheet} sheets the google sheets api entry point.
+ * @property {{name, column, type?, options?, min?, max?, validateCell?}} model an object describing the google sheets structure.
+ * @property {string} ID the ID of the google sheet to access.
+ */
 export class googleSheet {
 	/**
 	 * @param {string} sheetsID google sheets id.
-	 * @param {google.auth.OAuth2} auth OAuth2 authentication object.
+	 * @param {OAuth2} auth OAuth2 authentication object.
 	 * @param {[{sheet,columns:[{name, column, type?, options?, min?, max?, validateCell?}]}]} modelDescription an array linking names to sheet columns and data validation rules.
 	*/
 	constructor(sheetsID, auth, modelDescription) {
@@ -26,8 +31,8 @@ export class googleSheet {
 
 	/**
 	 * gets a sheet column from model by sheet and name, returns column identifier.
-	 * @param {string} sheet a string corresponding with a 'sheet' value of a child of the model object
-	 * @param {string} column a string value corresponding with 'name' a value of the sheet's 'columns' list
+	 * @param {string} sheet a string corresponding with a 'sheet' value of an element of the model array
+	 * @param {string} column a string corresponding with a 'name' value of the sheet's 'columns' list
 	 * @returns {[string]} all data in the given column
 	*/
 	getModelColumn(sheet, column) {
@@ -76,6 +81,9 @@ export class googleSheet {
 							foundMatch = true;
 					return foundMatch;
 				} else return true;
+			case 'options':
+				if()
+				return true;
 			default: // don't validate on uncertainty
 				return true;
 		}
