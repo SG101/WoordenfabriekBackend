@@ -1,14 +1,15 @@
-Full sheet model:
-[
-	{
-		sheet: string,
-		columns: [
-			{name, column, type?, options?, min?, max?, validateCell?}
-		]
-	}
-]
+Single sheet model:
+{
+	sheet: string,
+	columns: [
+		{name, column, type?, options?, min?, max?, validateCell?}
+	]
+}
 Single column:
 	{name, column, type?, options?, min?, max?, validateCell?}
+
+A full google sheets document can be described as an array of 'sheet' objects.
+
 Column docs:
 	min and max are used as clamp values when type = 'number' and as character limits when type = 'string'.
 	options should be an array of accepted values, this will only be used if type == 'options'.
@@ -18,6 +19,7 @@ Column docs:
 Types:
 	'string': treated as a regular string.
 	'options': requires options to be defined. Only accepts values also present in options.
+	(note: i'm not yet sure about the date handling)
 	'date-dmy': Treated as a day-month-year date.
 	'date-ymd': Treated as a year-month-day date.
 	'date-mdy': Treated as a month-day-year date.
