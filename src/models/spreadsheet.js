@@ -2,16 +2,21 @@ import { google } from 'googleapis';
 
 /*/
  *	sheet model description:
- *		{ [{ sheet, columns: [{ name, column, type?, options?, minNum?, maxNum? }] }] }
+ 	*	[{sheet,columns:[{name, column, type?, options?, min?, max?, validateCell?}]}]
  *	single column:
- *		{ name, column, type?, options?, minNum?, maxNum?}
+ 	*	{name, column, type?, options?, min?, max?, validateCell?}
+ *	column guidelines:
+ 	*	min and max are used as clamp values when type = 'number' and as character limits when type = 'string'
+ 	*	options should be an array of accepted values, this will only be used if type = 'options'
+ 	*	validateCell should be a function returning a boolean, this function is called on every cell that is gotten via this colunn
+ 	*	values with '?' are optional or only required in case of particular types
 /*/
 
 export class googleSheet {
 	/**
 	 * @param {string} sheetsID google sheets id.
 	 * @param {google.auth.OAuth2} auth OAuth2 authentication object.
-	 * @param {[{sheet, columns:[{name, column, type?, options?, minNum?, maxNum?}]}]} modelDescription an array linking names to sheet columns and data validation rules.
+	 * @param {[{sheet,columns:[{name, column, type?, options?, min?, max?, validateCell?}]}]} modelDescription an array linking names to sheet columns and data validation rules.
 	*/
 	constructor(sheetsID, auth, modelDescription) {
 		this.sheets = google.sheets({ version: 'v4', auth });
@@ -42,41 +47,38 @@ export class googleSheet {
 	/**
 	 * validates cell according to default validation settings and a call to validateCell.
 	 * @param {string} cellData the raw data from the cell.
-	 * @param {{name, column, type?, options?, minNum?, maxNum?}} columnDescription the column description object from the model.
-	 * @returns {boolean} true if the given cell data passes all validation tests
+	 * @param {{name, column, type?, options?, min?, max?}} columnDescription the column description object from the model.
+	 * @returns {boolean} true if the given cell data passes all relevant validation tests.
 	 */
 	validateCell(cellData, columnDescription) {
 		if (columnDescription.validateCell != undefined) {
 			if(!columnDescription.validateCell(cellData)) return false;
 		}
 
-		if (columnDescription.type == undefined) {
-			return true;
-		} else if (columnDescription.type === 'string') {
-			if (typeof columnDescription.charLimit == 'number'
-				&& cellData.length <= columnDescription.charLimit) {
-				return false;
-			}
-		} else if (columnDescription.type === 'number') {
-			if (parseInt(cellData) == NaN) {
-				return false;
-			} else if (typeof columnDescription.maxNum != undefined
-				&& parseInt(cellData) > maxNum) {
-				return false;
-			} else if (typeof columnDescription.minNum != undefined
-				&& parseInt(cellData) < minNum) {
-				return false;
-			}
-		} else if (columnDescription.type === 'options') {
-			if (columnDescription.options != undefined) {
-				let foundMatch = false;
-				for (let i = 0; i < columnDescription.options; i++)
-					if (cellData == columnDescription.options[i])
-						foundMatch = true;
-				if (!foundMatch) return false;
-			}
+		switch (columnDescription.type) {
+			case undefined: //falls through
+			case 'string':
+				return (typeof columnDescription.min == 'number'
+						&& cellData.length >= parseInt(columnDescription.min))
+					&& (typeof columnDescription.max == 'number'
+						&& cellData.length <= parseInt(columnDescription.max));
+			case 'number':
+				return (parseInt(cellData) != NaN)
+					&& (typeof columnDescription.maxNum == undefined
+						|| parseInt(cellData) > maxNum)
+					&& (typeof columnDescription.minNum == undefined
+						|| parseInt(cellData) < minNum);
+			case 'options':
+				if (columnDescription.options != undefined) {
+					let foundMatch = false;
+					for (let i = 0; i < columnDescription.options; i++)
+						if (cellData == columnDescription.options[i])
+							foundMatch = true;
+					return foundMatch;
+				} else return true;
+			default: // don't validate on uncertainty
+				return true;
 		}
-		return true;
 	}
 
 	/**
@@ -101,8 +103,7 @@ export class googleSheet {
 			(err, res) => {
 				if (err) {
 					return console.log('Google sheets API returned error: ' + err);
-				}
-				else {
+				} else {
 					if (modelColumn != undefined)
 						for (let i = 0; i < res.data.values.length; i++)
 							this.validate(res.data.values[i], modelColumn);
@@ -113,10 +114,10 @@ export class googleSheet {
 	}
 
 	/**
-	 * reads data from a given range
+	 * reads data from a given range.
 	 * @param {string} sheet name of the targeted spreadsheet.
 	 * @param {string} range spreadsheet range to get values from.
-	 * @returns {[[string]]} sheet data as 2D array
+	 * @returns {[[string]]} sheet data as 2D array.
 	*/
 	getFromRange(sheetName, range) {
 		let sheetRange = sheetName + '!' + range;
