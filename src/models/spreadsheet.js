@@ -13,11 +13,12 @@ import { google } from 'googleapis';
 /*/
 
 /**
- * @property {google sheet} sheets the google sheets api entry point.
+ * @property {google.sheets} sheets the google sheets api entry point.
  * @property {{name, column, type?, options?, min?, max?, validateCell?}} model an object describing the google sheets structure.
  * @property {string} ID the ID of the google sheet to access.
  */
 export class googleSheet {
+
 	/**
 	 * @param {string} sheetsID google sheets id.
 	 * @param {OAuth2} auth OAuth2 authentication object.
@@ -36,16 +37,12 @@ export class googleSheet {
 	 * @returns {[string]} all data in the given column
 	*/
 	getModelColumn(sheet, column) {
-		for (let s = 0; s < this.model.length; s++) {
-			if (this.model[s].sheet === sheet) {
+		for (let s = 0; s < this.model.length; s++)
+			if (this.model[s].sheet === sheet)
 				sheet = this.model[s];
-				for (let c = 0; c < sheet.columns.length; c++) {
-					if (sheet.columns[c].name === column) {
+				for (let c = 0; c < sheet.columns.length; c++)
+					if (sheet.columns[c].name === column)
 						return sheet.columns[c];
-					}
-				}
-			}
-		}
 		return undefined;
 	}
 
@@ -81,9 +78,6 @@ export class googleSheet {
 							foundMatch = true;
 					return foundMatch;
 				} else return true;
-			case 'options':
-				if()
-				return true;
 			default: // don't validate on uncertainty
 				return true;
 		}
@@ -100,15 +94,15 @@ export class googleSheet {
 		let range = sheetName + '!';
 		let modelColumn = this.getModelColumn(sheetName, columnIdentifier);
 		
-		if (modelColumn == undefined) {
+		if (modelColumn == undefined)
 			range += columnIdentifier + rowStart + ':' + columnIdentifier + rowEnd;
-		} else {
+		else
 			range += modelColumn.column + rowStart + ':' + modelColumn.column + rowEnd;
-		}
 
-		console.log(range);
-		this.sheets.spreadsheets.values.get({ spreadsheetID: this.ID, range: range },
-			(err, res) => {
+		this.sheets.spreadsheets.values.get({
+			spreadsheetID: this.ID,
+			range: range
+		}, (err, res) => {
 				if (err) {
 					return console.log('Google sheets API returned error: ' + err);
 				} else {

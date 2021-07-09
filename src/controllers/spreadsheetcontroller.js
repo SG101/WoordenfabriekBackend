@@ -11,9 +11,19 @@ import { googleSheet } from '../models/spreadsheet';
 
 var templateModel = [
 	{
+		sheet: "Lessen",
+		columns: [
+			{ name: "Les ID", column: "A", type: "number" },
+			{ name: "Titel", column: "B", type: "string" },
+			{ name: "Subtitel", column: "C", type: "string" },
+			{ name: "Status", column: "D", type: "options", options: ["Actief", "Inactief"] },
+			{ name: "Vervaldatum", column: "E", type: "date" }
+		]
+	},
+	{
 		sheet: "Levels",
 		columns: [
-			{ name: "LevelID", column: "A", type: "number" },
+			{ name: "Level ID", column: "A", type: "number" },
 			{ name: "Titel", column: "B", type: "string" },
 			{ name: "Subtitel", column: "C", type: "string" },
 			{ name: "Timer", column: "D", type: "bool" },
@@ -23,7 +33,7 @@ var templateModel = [
 	{
 		sheet: "Challenges",
 		columns: [
-			{ name: "ChallengeID", column: "A", type: "number" },
+			{ name: "Challenge ID", column: "A", type: "number" },
 			{ name: "Challenge Soort ID", column: "B", type: "options", options: ["C01", "K01", "K02", "I01", "V01"] },
 			{ name: "Beschrijving", column: "C", type: "string" },
 			{ name: "Titel", column: "D", type: "string" },
@@ -33,4 +43,5 @@ var templateModel = [
 	}
 ];
 
-export const RadbUploadModel = new googleSheet("", {}, templateModel);
+export const RadbTemplateModel = new googleSheet("", {}, templateModel);
+RadbTemplateModel.getModelColumn("Levels", "Titel");
