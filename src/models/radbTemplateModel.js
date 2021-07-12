@@ -44,5 +44,63 @@ export const radbTemplateModel = [
 			{ name: "Level ID", column: "A", type: "reference", referenceSheet: "Levels", referenceColumn: "Level ID" },
 			{ name: "Challenge ID", column: "B", type: "reference", referenceSheet: "Challenges", referenceColumn: "Challenge ID" }
 		]
+	},
+	{
+		sheets: "Vragen-C01",
+		columns: [
+			{ name: "Challenge ID", column: "A", type: "reference", referenceSheet: "Challenges", referenceColumn: "Challenge ID" },
+			{ name: "Level ID", column: "B", type: "reference", referenceSheet: "Levels", referenceColumn: "Level ID" },
+			{ name: "Zin", column: "C", type: "string", min: 1, max: 400 },
+			{ name: "Antwoord", column: "D", type: "options", options: [ "Waar", "Niet waar", "Deels waar" ] }
+		]
+	},
+	{
+		sheet: "Vragen-K01",
+		columns: [
+			{ name: "Challenge ID", column: "A", type: "reference", referenceSheet: "Challenges", referenceColumn: "Challenge ID" },
+			{ name: "Level ID", column: "B", type: "reference", referenceSheet: "Levels", referenceColumn: "Level ID" },
+			{
+				name: "Woord", column: "C", type: "string", min: 1,
+				validateCell = (cell) => {
+					return (cell.includes('|'));
+				}
+			}
+		]
+	},
+	{
+		sheet: "Vragen-K02",
+		columns: [
+			{ name: "Challenge ID", column: "A", type: "reference", referenceSheet: "Challenges", referenceColumn: "Challenge ID" },
+			{ name: "Level ID", column: "B", type: "reference", referenceSheet: "Levels", referenceColumn: "Level ID" },
+			{ name: "Morfeem 1", column: "C", type: "string" },
+			{ name: "Morfeem 2", column: "D", type: "string" },
+			{ name: "Morfeem 3", column: "E", type: "string" },
+			{ name: "Antwoord 1", column: "F", type: "list", max: 3 },
+			{ name: "Antwoord 2", column: "G", type: "list", max: 3 },
+			{ name: "Antwoord 3", column: "H", type: "list", max: 3 }
+		]
+	},
+	{
+		sheet: "Vragen-V01",
+		columns: [
+			{ name: "Challenge ID", column: "A", type: "reference", referenceSheet: "Challenges", referenceColumn: "Challenge ID" },
+			{ name: "Level ID", column: "B", type: "reference", referenceSheet: "Levels", referenceColumn: "Level ID" },
+			{ name: "Woord", column: "C", type: "string" },
+			{ name: "Antwoorden", column: "D", type: "list", min: 0, max: 4 },
+		]
+	},
+	{
+		sheet: "Vragen-I01",
+		columns: [
+			{ name: "Challenge ID", column: "A", type: "reference", referenceSheet: "Challenges", referenceColumn: "Challenge ID" },
+			{ name: "Level ID", column: "B", type: "reference", referenceSheet: "Levels", referenceColumn: "Level ID" },
+			{ name: "Voorbeeldzin", column: "C", type: "string" },
+			{
+				name: "Opdrachtzin", column: "D", type: "string",
+				validateCell = (cellData) => {
+					return (cellData.includes("[") && cellData.includes("]"));
+				}
+			}
+		]
 	}
 ];

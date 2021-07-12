@@ -4,7 +4,7 @@ Single sheet model:
 	columns: []
 }
 Single column:
-	{ name, column, type?, referenceSheet?, referenceColumn, options?, min?, max?, validateCell? }
+	{ name, column, type?, referenceSheet?, referenceColumn?, options?, min?, max?, validateCell? }
 
 A full google sheets document can be described as an array of 'sheet' objects.
 
@@ -13,14 +13,22 @@ Column docs:
 	'options' should be an array of accepted values, this will only be used if type == 'options'.
 	'referenceSheet' and 'referenceColumn' are used together to limit the allowed inputs of a column to the values in another column.
 		Only works if type == 'reference'.
-	validateCell should be a function taking the cell contents and returning a boolean.
+	'validateCell' should be a function taking the cell contents and returning a boolean.
 		This function is called on every cell that is gotten via this column.
+	'list' columns are interpreted as a comma-separated list.
+		These will  
 	Values with '?' are optional or only required in case of particular types.
 
 Types:
 	'string': treated as a regular string.
-	'options': requires options to be defined. Only accepts values also present in options.
-	(note: i'm not yet sure about the date handling)
-	'date-dmy': Treated as a day-month-year date.
-	'date-ymd': Treated as a year-month-day date.
-	'date-mdy': Treated as a month-day-year date.
+		'min' and 'max' are used to define the minimum and maximum number of characters in the cell.
+	'options': requires 'options' attribute to be defined.
+		the 'options' attribute is a list of possible values.
+	'reference': only accepts values present in a given column of a given sheet.
+		requires 'referenceColumn' and 'referenceSheet' to be defined.
+		referenceSheet needs to be the name of another sheet in the model.
+		referenceColumn needs to be either the letter identifier or the model name of a column in said sheet.
+	'list': a comma-separated list of strings.
+		'min' and 'max' are used to clamp the amount of allowed options per cell.
+	'number': treated as a javascript number.
+		'min' and 'max' are used to clamp the lowest possible and highest possible values.

@@ -1,4 +1,5 @@
 import { googleSheet } from '../models/spreadsheet';
+import { radbTemplateModel } from '../models/radbTemplateModel';
 
 /*
  * model notes:
@@ -9,8 +10,14 @@ import { googleSheet } from '../models/spreadsheet';
  *		when type == 'undefined' the type 'string' is assumed.
 */
 
-export const RadbSheet = new googleSheet("", {}, templateModel);
+export const RadbSheet = undefined;
 
-export const spreadsheetRange = (req, res) => {
-	res.send(RadbSheet.getModelColumn(req.body.sheet, req.body.column));
+export const getSpreadsheetRange = (req, res) => {
+	if (RadbSheet == undefined) {
+		// authorize OAuth2
+		RadbSheet = new googleSheet("", {}, radbTemplateModel);
+		// confirm model accuracy
+	} else {
+		res.send(RadbSheet.getModelColumn(req.body.sheet, req.body.column));
+	}
 }
