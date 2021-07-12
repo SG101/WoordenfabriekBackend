@@ -13,8 +13,8 @@ A full google sheets document can be described as an array of 'sheet' objects.
 Column docs:
 	min and max are used as clamp values when type = 'number' and as character limits when type = 'string'.
 	options should be an array of accepted values, this will only be used if type == 'options'.
-	validateCell should be a function taking the cell contents and returning a boolean,
-		this function is called on every cell that is gotten via this column.
+	validateCell should be a function taking the cell contents and returning a boolean.
+		This function is called on every cell that is gotten via this column.
 	Values with '?' are optional or only required in case of particular types.
 Types:
 	'string': treated as a regular string.

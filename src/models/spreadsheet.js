@@ -58,7 +58,7 @@ export class googleSheet {
 		}
 
 		switch (columnDescription.type) {
-			case undefined: //falls through
+			case undefined: //falls through to string
 			case 'string':
 				return (typeof columnDescription.min == 'number'
 						&& cellData.length >= parseInt(columnDescription.min))
@@ -86,9 +86,9 @@ export class googleSheet {
 	/**
 	 * gets a column from given sheet with data validation and sheet.
 	 * @param {string} sheetName the name of the sheet to get from.
-	 * @param {string} columnName the name of the column as described in the modelDescription or the direct column identifier.
-	 * @param {int} rowStart the first row to get.
-	 * @param {int} rowEnd the last row to get.
+	 * @param {string} columnIdentifier the name of the column as described in the modelDescription or the direct column identifier.
+	 * @param {number} rowStart the first row to get.
+	 * @param {number} rowEnd the last row to get.
 	*/
 	getColumn(sheetName, columnIdentifier, rowStart, rowEnd) {
 		let range = sheetName + '!';
